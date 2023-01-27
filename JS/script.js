@@ -21,7 +21,7 @@ $('#search-form').on('submit', function(event) {
             const lat = response[0].lat;
             const lon = response[0].lon;
 
-            const weatherQueryUrl = 'http://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&appid=' + apiKey;
+            const weatherQueryUrl = 'http://api.openweathermap.org/data/2.5/forecast?units=metric&lat=' + lat + '&lon=' + lon + '&appid=' + apiKey;
 
             // Call 5 day weather forecast API after we have city lat and lon value
             $.ajax({ url: weatherQueryUrl })
