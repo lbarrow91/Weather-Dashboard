@@ -1,19 +1,36 @@
 // TODO: Style current HTML
 
-const apiKey = c7875164b13a0aa55846b5cd71026a96;
+const apiKey = "c7875164b13a0aa55846b5cd71026a96";
 const history = JSON.parse(localStorage.getItem('history')) || [];
-// TODO: Populate history list from local storage when page loads
+
+// Populates history list from local storage when page loads
+
+function createHistoryBtn(text){
+    var newBtn = $("<button>").text(text);
+    $("#history").append(newBtn);
+};
+
+function checkHistory () {
+    for (let i = 0; i < history.length; i++) {
+        createHistoryBtn(history[i]);
+    }
+};
+checkHistory();
+
 
 $('#search-form').on('submit', function(event) {
     event.preventDefault();
 
     const userInput = $('#search-input').val();
     const queryUrl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + userInput + '&limit=5&appid=' + apiKey;
-    // TODO: put the search value on the history list container
+    
+       
 
     // Add the history to local storage
     history.push(userInput);
     localStorage.setItem('history', JSON.stringify(history));
+    // puts the search value on the history list container, calling the function on line 8
+    createHistoryBtn(userInput);
 
     // Call Geocoding API when search form is submitted to find city lat and long value
     $.ajax({ url: queryUrl })
@@ -33,8 +50,16 @@ $('#search-form').on('submit', function(event) {
                     // Now forecast
                     const today = weatherList[0];
                     console.log(today);
+                    console.log(weatherResponse.list)
                      // TODO: put today's weather in container for today's weather
-
+                    var lineOne = $("<h1>");
+                    var cityName = userInput;
+                    var date = moment().format("DD/MM/yyyy");
+                    var iconCode = weatherResponse.list[0].weather[0].icon;
+                    var iconUrl = $("<img>").attr("src","https://openweathermap.org/img/w/" + iconCode + ".png");
+                    $(lineOne).append(cityName + "  " + "(" + date + ")");
+                    $("#today").append(lineOne);
+                    $(lineOne).append(iconUrl);
                     // 5 days forecast
                     for (let i = 1; i < weatherList.length; i += 8) {
                         const weather = weatherList[i];
