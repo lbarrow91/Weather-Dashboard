@@ -22,7 +22,7 @@ $('#search-form').on('submit', function(event) {
     event.preventDefault();
 
     const userInput = $('#search-input').val();
-    const queryUrl = 'http://api.openweathermap.org/geo/1.0/direct?q=' + userInput + '&limit=5&appid=' + apiKey;
+    const queryUrl = 'https://api.openweathermap.org/geo/1.0/direct?q=' + userInput + '&limit=5&appid=' + apiKey;
     
        
 
@@ -38,7 +38,7 @@ $('#search-form').on('submit', function(event) {
             const lat = response[0].lat;
             const lon = response[0].lon;
 
-            const weatherQueryUrl = 'http://api.openweathermap.org/data/2.5/forecast?units=metric&lat=' + lat + '&lon=' + lon + '&appid=' + apiKey;
+            const weatherQueryUrl = 'https://api.openweathermap.org/data/2.5/forecast?units=metric&lat=' + lat + '&lon=' + lon + '&appid=' + apiKey;
 
             // Call 5 day weather forecast API after we have city lat and lon value
             $.ajax({ url: weatherQueryUrl })
@@ -60,6 +60,10 @@ $('#search-form').on('submit', function(event) {
                     $(lineOne).append(cityName + "  " + "(" + date + ")");
                     $("#today").append(lineOne);
                     $(lineOne).append(iconUrl);
+
+                    var linetwo = $("<h2>");
+                    var temp = weatherResponse.list[0].main.temp;
+                    var humidity = weatherResponse.list[0].main.humidity;
                     // 5 days forecast
                     for (let i = 1; i < weatherList.length; i += 8) {
                         const weather = weatherList[i];
